@@ -13,7 +13,7 @@ class Page
     @$ = @formatter.load @filePlainText
     @content = @$.root()
     @heading = @getHeading()
-    @fileNameNew = @getFileNameNew()
+    @fileNameNew = @getFileNameNewWithoutPrefix('lsFusion')
     @space = @utils.getBasename @utils.getDirname @path
     @spacePath = @getSpacePath()
 
@@ -25,6 +25,13 @@ class Page
   getFileNameNew: () ->
     return 'index.md' if @fileName == 'index.html'
     @utils.sanitizeFilename(@heading) + '.md'
+
+
+  getFileNameNewWithoutPrefix: (prefixToDelete) ->
+    name = @getFileNameNew()
+    if name.startsWith prefixToDelete
+      name = name.substr(prefixToDelete.length)
+    return name
 
 
   getHeading: () ->
